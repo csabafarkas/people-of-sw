@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+td,
+th {
+  color: yellow;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+th {
+  display: flex;
+  cursor: pointer;
+}
+
+th,
+td {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 8rem;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+  display: flex;
+}
+
+th span {
+  color: white;
+}
+
+tr {
+  display: flex;
+}
+
+.theader {
+  flex: 1;
+  text-align: left;
+}
+
+.table-container {
+  height: 100%;
+  overflow-x: auto;
+}
+
+.container {
+  padding: 3rem 2rem;
+  background: url('/assets/stars-background.jpg');
+  background-size: cover;
+}
+
+.container table,
+div {
+  margin: auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #4caf50;
+  margin-top: 0;
+}
+
+.link {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4caf50;
+  text-decoration: none;
+}
+
+.planet-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.planet-modal > .title {
+  margin-bottom: 0.5rem;
+}
+
+.planet-modal > ul {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  color: #4caf50;
+  font-size: 1.5rem;
+}
+
+.planet-modal > ul > li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: none;
+}
+
+.planet-modal > ul > li > span {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.planet-modal > ul > li:nth-child(odd) {
+  background-color: rgb(178, 199, 240);
+}
+
+.planet-modal > button {
+  background-color: yellow;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
