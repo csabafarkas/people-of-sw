@@ -1,11 +1,13 @@
 import { useEffect, useReducer } from 'react';
-import { BrowserRouter, Link, Switch, Redirect, Route } from 'react-router-dom';
+import { Link, Switch, Redirect, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import axios from 'axios';
 import { sortPeople } from './lib/Helpers';
 import { StateType, Person, PlanetModel, ActionType } from './types';
 import PeoplesPlanetContext from './context/PeoplePlanetContext';
 import Planet from './components/Planet';
+import Home from './components/Home';
+import Modal from './components/Modal';
 
 const App = () => {
   const initialState: StateType = {
@@ -16,6 +18,9 @@ const App = () => {
     loading: true,
     error: false,
   };
+
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   const reducer = (state: StateType, action: ActionType) => {
     switch (action.type) {
@@ -153,132 +158,30 @@ const App = () => {
     <h1 className='title'>Loading...</h1>
   ) : (
     <PeoplesPlanetContext.Provider value={{ planets }}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/'>
-            <Redirect to='/people' />
-          </Route>
-          <Route path='/people'>
-            <Home
-              handleTableHeaderClick={handleTableHeaderClick}
-              people={people}
-              sortedField={sortedField}
-              sortDirection={sortDirection}
-            />
-          </Route>
-          <Route path='/planets/:id'>
-            <Planet />
-          </Route>
-        </Switch>
-        <Switch></Switch>
-      </BrowserRouter>
+      <Switch location={background || location}>
+        <Route exact path='/'>
+          <Home
+            handleTableHeaderClick={handleTableHeaderClick}
+            people={people}
+            sortedField={sortedField}
+            sortDirection={sortDirection}
+          />
+        </Route>
+        <Route path='*'>
+          <Redirect to='/' />
+        </Route>
+      </Switch>
+      {background && (
+        <Route
+          path='/planets/:id'
+          children={
+            <Modal>
+              <Planet />
+            </Modal>
+          }
+        />
+      )}
     </PeoplesPlanetContext.Provider>
-  );
-};
-
-const Home = ({
-  handleTableHeaderClick,
-  people,
-  sortedField,
-  sortDirection,
-}) => {
-  return (
-    <div className='container'>
-      <h1 className='title'>People</h1>
-      <div className='table-container'>
-        <table>
-          <thead>
-            <tr>
-              <th onClick={() => handleTableHeaderClick('name')}>
-                <span className='theader'>Name</span>{' '}
-                {sortedField === 'name' ? (
-                  sortDirection === 'asc' ? (
-                    <span>&#9660;</span>
-                  ) : sortDirection === 'desc' ? (
-                    <span>&#9650;</span>
-                  ) : null
-                ) : null}
-              </th>
-              <th onClick={() => handleTableHeaderClick('height')}>
-                <span className='theader'>Height</span>{' '}
-                {sortedField === 'height' ? (
-                  sortDirection === 'asc' ? (
-                    <span>&#9660;</span>
-                  ) : sortDirection === 'desc' ? (
-                    <span>&#9650;</span>
-                  ) : null
-                ) : null}
-              </th>
-              <th onClick={() => handleTableHeaderClick('mass')}>
-                <span className='theader'>Mass</span>{' '}
-                {sortedField === 'mass' ? (
-                  sortDirection === 'asc' ? (
-                    <span>&#9660;</span>
-                  ) : sortDirection === 'desc' ? (
-                    <span>&#9650;</span>
-                  ) : null
-                ) : null}
-              </th>
-              <th onClick={() => handleTableHeaderClick('created')}>
-                <span className='theader'>Created</span>{' '}
-                {sortedField === 'created' ? (
-                  sortDirection === 'asc' ? (
-                    <span>&#9660;</span>
-                  ) : sortDirection === 'desc' ? (
-                    <span>&#9650;</span>
-                  ) : null
-                ) : null}
-              </th>
-              <th onClick={() => handleTableHeaderClick('edited')}>
-                <span className='theader'>Edited</span>{' '}
-                {sortedField === 'edited' ? (
-                  sortDirection === 'asc' ? (
-                    <span>&#9660;</span>
-                  ) : sortDirection === 'desc' ? (
-                    <span>&#9650;</span>
-                  ) : null
-                ) : null}
-              </th>
-              <th onClick={() => handleTableHeaderClick('planet')}>
-                <span className='theader'>Planet</span>{' '}
-                {sortedField === 'planet' ? (
-                  sortDirection === 'asc' ? (
-                    <span>&#9660;</span>
-                  ) : sortDirection === 'desc' ? (
-                    <span>&#9650;</span>
-                  ) : null
-                ) : null}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {(people as Person[]).map((person) => {
-              return (
-                <tr key={person.url}>
-                  <td>{person.name}</td>
-                  <td>{person.height}</td>
-                  <td>{person.mass}</td>
-                  <td>{new Date(person.created).toLocaleDateString()}</td>
-                  <td>{new Date(person.edited).toLocaleDateString()}</td>
-                  <td
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'underline',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    <Link class='link' to={`/planets/${person.planet.name}`}>
-                      {person.planet.name}
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      {/* <pre>{JSON.stringify(people, undefined, 2)}</pre> */}
-    </div>
   );
 };
 

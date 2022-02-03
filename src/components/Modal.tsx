@@ -1,6 +1,13 @@
 import { createPortal } from 'react-dom';
+import { useHistory } from 'react-router-dom';
 
 const Modal = ({ children }) => {
+  const history = useHistory();
+
+  const closeModal = (e) => {
+    e.stopPropagation();
+    history.goBack();
+  };
   return createPortal(
     <div
       style={{
@@ -15,8 +22,9 @@ const Modal = ({ children }) => {
         display: 'grid',
         placeContent: 'center',
       }}
+      onClick={closeModal}
     >
-      {children}
+      <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>,
     document.getElementById('modal-root') as HTMLElement
   );

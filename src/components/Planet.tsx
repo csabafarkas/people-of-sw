@@ -8,30 +8,28 @@ const Planet = () => {
   const context = useContext(PeoplesPlanetContext);
   const planet = context.planets.find((planet) => planet.name === planetName);
   return (
-    <Modal>
-      <div className='planet-modal'>
-        <h4 className='title'>{planetName}</h4>
-        <ul style={{ listStyleType: 'none' }}>
-          <li>
-            <span>Diameter:</span>
-            <span>{planet?.diameter ?? 'Unknown'}</span>
-          </li>
-          <li>
-            <span>Climate:</span>
-            <span>{planet?.climate ?? 'Unknown'}</span>
-          </li>
-          <li>
-            <span>Population:</span>
-            <span>{planet?.population ?? 'Unknown'}</span>
-          </li>
-        </ul>
-        <button>
-          <Link className='link' to='/'>
-            &larr;&nbsp;Back to People
-          </Link>
-        </button>
-      </div>
-    </Modal>
+    <div className='planet-modal'>
+      <h4 className='title'>{planetName}</h4>
+      <ul style={{ listStyleType: 'none' }}>
+        <li>
+          <span>Diameter:</span>
+          <span>{planet?.diameter ?? 'Unknown'}</span>
+        </li>
+        <li>
+          <span>Climate:</span>
+          <span>{planet?.climate ?? 'Unknown'}</span>
+        </li>
+        <li>
+          <span>Population:</span>
+          <span>{planet?.population ?? 'Unknown'}</span>
+        </li>
+      </ul>
+      <button>
+        <Link className='link' to='/'>
+          &larr;&nbsp;Back to People
+        </Link>
+      </button>
+    </div>
   );
 };
 
